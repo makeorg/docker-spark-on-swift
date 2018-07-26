@@ -26,3 +26,5 @@ RUN \
   rm spark-2.2.1-bin-without-hadoop.tgz
 
 COPY --from=builder /opt/stocator/target/stocator-1.0.15-jar-with-dependencies.jar /opt/stocator.jar
+
+COPY spark-env.sh /opt/spark/conf
