@@ -1,0 +1,36 @@
+--- src/main/java/com/ibm/stocator/fs/swift/SwiftAPIClient.java	2020-02-24 16:07:31.843403001 +0100
++++ src/main/java/com/ibm/stocator/fs/swift/SwiftAPIClient.patch.java	2020-02-24 16:14:24.023404040 +0100
+@@ -58,7 +58,6 @@
+ import com.ibm.stocator.fs.common.exception.ConfigurationParseException;
+ import com.ibm.stocator.fs.swift.auth.DummyAccessProvider;
+ import com.ibm.stocator.fs.swift.auth.JossAccount;
+-import com.ibm.stocator.fs.swift.auth.PasswordScopeAccessProvider;
+ import com.ibm.stocator.fs.swift.http.ConnectionConfiguration;
+ import com.ibm.stocator.fs.swift.http.SwiftConnectionManager;
+ 
+@@ -75,8 +74,6 @@
+ import static com.ibm.stocator.fs.swift.SwiftConstants.SWIFT_CONTAINER_PROPERTY;
+ import static com.ibm.stocator.fs.swift.SwiftConstants.SWIFT_PUBLIC_PROPERTY;
+ import static com.ibm.stocator.fs.swift.SwiftConstants.SWIFT_BLOCK_SIZE_PROPERTY;
+-import static com.ibm.stocator.fs.swift.SwiftConstants.SWIFT_PROJECT_ID_PROPERTY;
+-import static com.ibm.stocator.fs.swift.SwiftConstants.SWIFT_USER_ID_PROPERTY;
+ import static com.ibm.stocator.fs.swift.SwiftConstants.FMODE_AUTOMATIC_DELETE_PROPERTY;
+ import static com.ibm.stocator.fs.swift.SwiftConstants.BUFFER_DIR_PROPERTY;
+ import static com.ibm.stocator.fs.swift.SwiftConstants.BUFFER_DIR;
+@@ -273,13 +270,10 @@
+         config.setTenantName(props.getProperty(SWIFT_TENANT_PROPERTY));
+       } else if (authMethod.equals(KEYSTONE_V3_AUTH)) {
+         preferredRegion = props.getProperty(SWIFT_REGION_PROPERTY, "dallas");
++        config.setUsername(Utils.getOption(props, SWIFT_USERNAME_PROPERTY));
++        config.setTenantName(props.getProperty(SWIFT_TENANT_PROPERTY));
+         config.setPreferredRegion(preferredRegion);
+-        config.setAuthenticationMethod(AuthenticationMethod.EXTERNAL);
+-        String userId = props.getProperty(SWIFT_USER_ID_PROPERTY);
+-        String projectId = props.getProperty(SWIFT_PROJECT_ID_PROPERTY);
+-        PasswordScopeAccessProvider psap = new PasswordScopeAccessProvider(userId,
+-            config.getPassword(), projectId, config.getAuthUrl(), preferredRegion);
+-        config.setAccessProvider(psap);
++        config.setAuthenticationMethod(AuthenticationMethod.KEYSTONE_V3);
+       } else if (authMethod.equals("basic")) {
+         config.setAuthenticationMethod(AuthenticationMethod.BASIC);
+         config.setUsername(Utils.getOption(props, SWIFT_USERNAME_PROPERTY));

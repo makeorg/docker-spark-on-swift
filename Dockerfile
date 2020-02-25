@@ -1,10 +1,17 @@
 # builder image
 FROM maven:3.5 as builder
 
+RUN apt-get update && apt-get install -y patch
+
+RUN mkdir /patches
+COPY patches /patches/
+
 RUN \
   curl -L https://github.com/CODAIT/stocator/archive/v1.0.37.tar.gz -o stocator-1.0.37.tar.gz && \
   tar xzvf stocator-1.0.37.tar.gz && \
   cd stocator-1.0.37 && \
+  patch -i /patches/SwiftAPIClient.diff \
+  src/main/java/com/ibm/stocator/fs/swift/SwiftAPIClient.java && \
   mvn clean package -Dmaven.test.skip -Pall-in-one && \
   cd .. && \
   mv stocator-1.0.37 /opt/stocator && \
