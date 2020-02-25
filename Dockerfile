@@ -14,10 +14,10 @@ RUN \
 FROM rappdw/docker-java-python
 
 RUN \
-  curl -O http://mirrors.ircam.fr/pub/apache/hadoop/common/hadoop-3.0.3/hadoop-3.0.3.tar.gz && \
-  tar xzvf hadoop-3.0.3.tar.gz && \
-  mv hadoop-3.0.3 /opt/hadoop && \
-  rm hadoop-3.0.3.tar.gz
+  curl -O http://mirrors.ircam.fr/pub/apache/hadoop/common/hadoop-3.2.1/hadoop-3.2.1.tar.gz && \
+  tar xzvf hadoop-3.2.1.tar.gz && \
+  mv hadoop-3.2.1 /opt/hadoop && \
+  rm hadoop-3.2.1.tar.gz
 
 RUN \
   curl -O https://archive.apache.org/dist/spark/spark-2.2.1/spark-2.2.1-bin-without-hadoop.tgz && \
