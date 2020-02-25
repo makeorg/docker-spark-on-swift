@@ -5,7 +5,7 @@ RUN \
   curl -L https://github.com/CODAIT/stocator/archive/v1.0.15.tar.gz -o stocator-1.0.15.tar.gz && \
   tar xzvf stocator-1.0.15.tar.gz && \
   cd stocator-1.0.15 && \
-  mvn clean package -Pall-in-one && \
+  mvn clean package -Dmaven.test.skip -Pall-in-one && \
   cd .. && \
   mv stocator-1.0.15 /opt/stocator && \
   rm stocator-1.0.15.tar.gz
